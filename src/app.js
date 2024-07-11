@@ -17,4 +17,7 @@ app.use(morgan('tiny'));
 const stockRoutes = require('./routes/stockRoutes');
 app.use('/api/stocks', stockRoutes);
 
+const userRoutes = require('./routes/userRoutes');
+app.use('/api/users', userRoutes);
+
 module.exports = app;
