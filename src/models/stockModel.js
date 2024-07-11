@@ -1,19 +1,23 @@
-const db = require('../config/db');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-const createStock = async (symbol, price, change) => {
-  const result = await db.query(
-    'INSERT INTO stocks (symbol, price, change) VALUES ($1, $2, $3) RETURNING *',
-    [symbol, price, change]
-  );
-  return result.rows[0];
-};
+const stockSchema = new mongoose.Schema({
+  symbol: {
+    type: String,
+    required: true,
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  change: {
+    type: Number,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-const getStocks = async () => {
-  const result = await db.query('SELECT * FROM stocks');
-  return result.rows;
-};
-
-module.exports = {
-  createStock,
-  getStocks,
-};
+module.exports = mongoose.model('Stock', stockSchema);
