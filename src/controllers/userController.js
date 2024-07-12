@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const sendVerificationEmail = require('../emailService');
 
-
 const register = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -19,7 +18,6 @@ const register = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
-
 
 const login = async (req, res) => {
   const { email, password } = req.body;

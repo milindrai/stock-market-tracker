@@ -1,28 +1,28 @@
 const nodemailer = require('nodemailer');
 
-// Create a transporter using Gmail SMTP
 const transporter = nodemailer.createTransport({
-  service: 'Gmail',
+  service: 'gmail',
   auth: {
-    user: 'your-email@gmail.com',
-    pass: 'your-email-password',
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
-// Function to send verification email
 const sendVerificationEmail = (user, token) => {
+  const url = `http://localhost:${process.env.PORT}/api/users/verify/${token}`;
   const mailOptions = {
-    from: 'your-email@gmail.com',
+    from: process.env.EMAIL_USER,
     to: user.email,
-    subject: 'Email Verification',
-    text: `Please verify your email by clicking on this link: http://localhost:5000/api/users/verify/${token}`,
+    subject: 'Verify your email address',
+    text: `Click this link to verify your email address: ${url}`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
-      return console.log(error);
+      console.error('Error sending email:', error);
+    } else {
+      console.log('Email sent:', info.response);
     }
-    console.log('Verification email sent: ' + info.response);
   });
 };
 
